@@ -1,0 +1,61 @@
+{% extends '@!PrestaShop/Admin/layout.html.twig' %}
+
+ {% set layoutHeaderToolbarBtn = {
+     add_bargain: {
+         href:  path('bargain-setting') ,
+         desc: 'Bargain Setting'|trans({}, 'Modules.productbargain.Admin'),
+         icon: 'add_circle_outline',
+     },
+ }
+ %}
+
+{% block content %}
+
+    <h1>Product Bargains</h1>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>User Id</th>
+                    <th>Product Id</th>
+                    <th>Product Price</th>
+                    <th>Final Price</th>
+                    <th>Iterations</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for b in data  %}
+                <tr>
+                    <th scope="row">{{ b.id }}</th>
+                    <td>{{ b.user_id }}</td>
+                    <td>{{ b.product_id }}</td>
+                    <td> ${{b.product_price}}</td>
+                    <td> ${{ b.final_price }}</td>
+                    <td>{{ b.iterations }}</td>
+                    {% if(b.status=='1') %}
+                    <td>{{ 'Pass' }}</td>
+                    {% else %}
+                    <td>{{ 'Fail' }}</td>
+                    {% endif %}
+                    <td><a href="{{ path('bargain-details', {'id':  b.user_id }) }}" class="btn btn-primary">Detail</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('themes/default/js/bundle/pagination.js') }}"></script>
+
+{% endblock %}

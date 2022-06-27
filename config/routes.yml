@@ -1,0 +1,18 @@
+bargain:
+  path: bargains
+  methods: [GET]
+  defaults:
+    _controller: 'productbargain\controller\bargainController::listAction'
+
+bargain-setting:
+  path: bargains/setting
+  methods: [GET,POST]
+  defaults:
+    _controller: 'productbargain\controller\bargainController::settingAction'
+
+bargain-details:
+  path: bargains/details/{id}
+  methods: [GET]
+  defaults:
+    _controller: 'productbargain\controller\bargainController::detailsAction'
+

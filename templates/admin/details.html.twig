@@ -1,0 +1,39 @@
+{% extends '@!PrestaShop/Admin/layout.html.twig' %}
+  {% set layoutHeaderToolbarBtn = {
+      add_bargain: {
+          href:  path('bargain') ,
+          desc: 'Back'|trans({}, 'Modules.productbargain.Admin')
+      },
+  }
+  %}
+{% block content %}
+
+    <h1>Bargain Details</h1>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Iteration Number</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for b in data  %}
+                    <tr>
+                        <th scope="row">{{ b.iteration_num }}</th>
+                        <td>{{ b.price }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('themes/default/js/bundle/pagination.js') }}"></script>
+
+{% endblock %}

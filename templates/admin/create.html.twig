@@ -1,0 +1,22 @@
+{% extends '@!PrestaShop/Admin/layout.html.twig' %}
+ {% set layoutHeaderToolbarBtn = {
+     add_bargain: {
+         href:  path('bargain') ,
+         desc: 'Back'|trans({}, 'Modules.productbargain.Admin')
+     },
+ }
+ %}
+
+{% block content %}
+
+    <h1>Bargain Setting</h1>
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {{form_start(form)}}
+
+    {{form_end(form)}}
+{% endblock %}

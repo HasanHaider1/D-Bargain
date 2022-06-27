@@ -1,0 +1,13 @@
+{
+  "name":"basmah/productbargain",
+  "description":"Let customers bargain",
+  "autoload": {
+    "psr-4": {
+        "productbargain\\": "src/"
+    }
+  },
+"config": {
+  "prepend-autoloader": false
+},
+  "type": "prestashop-module"
+}
