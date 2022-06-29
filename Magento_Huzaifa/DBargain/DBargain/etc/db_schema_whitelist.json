@@ -1,0 +1,56 @@
+{
+  "bargain": {
+    "column": {
+      "bargain_id": true,
+      "product_id": true,
+      "product_name": true,
+      "session_id": true,
+      "user_id": true,
+      "customer_id": true,
+      "customer_name": true,
+      "order_id": true,
+      "current_price": true,
+      "bargained_price": true,
+      "admin_response": true,
+      "finalized_price": true,
+      "responded_at": true
+    },
+    "index": {
+      "BARGAIN_BARGAIN_ID": true
+    },
+    "constraint": {
+      "PRIMARY": true
+    }
+  },
+    "bargain_message": {
+        "column": {
+            "bargain_message_id": true,
+            "attempt": true,
+            "content": true,
+            "message_type": true,
+            "is_warning": true,
+            "is_final": true
+        },
+        "index": {
+            "BARGAIN_MESSAGE_BARGAIN_MESSAGE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "bargain_report": {
+        "column": {
+            "bargain_report_id": true,
+            "product_id": true,
+            "product_name": true,
+            "no_of_buyers": true,
+            "times_purchased": true
+        },
+        "index": {
+            "BARGAIN_REPORT_BARGAIN_REPORT_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="dbargain" translate="label" sortOrder="10">
+            <label>D-Bargain</label>
+        </tab>
+        <section id="dbargainconfig" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Configuration</label>
+            <tab>dbargain</tab>
+            <resource>DBargain_DBargain::management</resource>
+
+            <group id="config_ranges" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Range for number of bargain attempts</label>
+                <field id="lower_range" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Lower range</label>
+                </field>
+                <field id="upper_range" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Upper range</label>
+                </field>
+            </group>
+
+            <group id="color_styling" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Styling for the chat interface</label>
+                <field id="background_color" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Background Color</label>
+                    <comment><![CDATA[Background color]]></comment>
+                    <frontend_model>DBargain\DBargain\Block\Color</frontend_model>
+                </field>
+                <field id="button_color" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Button Color</label>
+                    <comment><![CDATA[Button color]]></comment>
+                    <frontend_model>DBargain\DBargain\Block\Color</frontend_model>
+                </field>
+            </group>
+
+            <group id="chat_interface" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Open Chat Window</label>
+
+                <field id="chat_mode" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mode</label>
+                    <source_model>DBargain\DBargain\Model\Config\Source\ChatPopup</source_model>
+                </field>
+
+                <field id="after_exit" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>User tries to leave page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="after_timeout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>After timeout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="timeout_seconds" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Timeout (in seconds)</label>
+                    <depends>
+                        <field id="after_timeout">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

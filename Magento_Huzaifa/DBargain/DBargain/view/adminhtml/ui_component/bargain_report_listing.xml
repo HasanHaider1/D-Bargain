@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">bargain_report_listing.bargain_report_listing_data_source</item>
+            <item name="deps" xsi:type="string">bargain_report_listing.bargain_report_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>bargain_report_listing_columns</spinner>
+        <deps>
+            <dep>bargain_report_listing.bargain_report_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="bargain_report_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">bargain_report_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>DBargain_DBargain::management</aclResource>
+        <dataProvider class="DBargain\DBargain\Ui\DataProvider\BargainReportDataProvider"
+                      name="bargain_report_listing_data_source">
+            <settings>
+                <requestFieldName>bargain_report_id</requestFieldName>
+                <primaryFieldName>bargain_report_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="bargain_report_listing_columns">
+        <column name="bargain_report_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="product_id">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Product Id</label>
+            </settings>
+        </column>
+        <column name="product_name">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Product Name</label>
+            </settings>
+        </column>
+        <column name="no_of_buyers">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">No Of Buyers</label>
+            </settings>
+        </column>
+        <column name="times_purchased">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Times Purchased</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="DBargain\DBargain\Ui\Component\Listing\Column\BargainReportBlockActions">
+            <settings>
+                <indexField>bargain_report_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

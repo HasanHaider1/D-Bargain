@@ -1,0 +1,28 @@
+<?php
+$productData  = $block->getData();
+$productId    = $productData['data']['productId'];
+$username     = $productData['data']['username'];
+$response     = $productData['data']['response'];
+$bargainPrice = $productData['data']['bargainPrice'];
+$product      = $block->getProductBySku($productId);
+
+foreach ($response as $message) {
+    if (isset($message['admin'])) { ?>
+        <div class="message-box-holder">
+            <div class="message-sender">
+                <?= $username; ?>
+            </div>
+            <div class="message-box message-partner">
+                <?= $message['admin']; ?>
+            </div>
+        </div>
+        <?php
+    }
+
+    if (isset($message['user']) && $message['user'] != -1) { ?>
+        <div class="message-box-holder">
+            <div class="message-box"><?= $message['user']; ?></div>
+        </div>
+        <?php
+    }
+} ?>

@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="bargain_report" resource="default" engine="innodb" comment="BargainReport">
+        <column xsi:type="int" name="bargain_report_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Bargain Report Id Column"/>
+        <column xsi:type="varchar" name="product_id" nullable="false" length="255" comment="Product Id Column"/>
+        <column xsi:type="varchar" name="product_name" nullable="false" length="255" comment="Product Name Column"/>
+        <column xsi:type="int" name="no_of_buyers" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="No Of Buyers Column"/>
+        <column xsi:type="int" name="times_purchased" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Times Purchased Column"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="bargain_report_id"/>
+        </constraint>
+        <index referenceId="BARGAIN_REPORT_BARGAIN_REPORT_ID" indexType="btree">
+            <column name="bargain_report_id"/>
+        </index>
+    </table>
+    <table name="bargain_message" resource="default" engine="innodb" comment="BargainMessage">
+        <column xsi:type="int" name="bargain_message_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Bargain Message Id Column"/>
+        <column xsi:type="int" name="attempt" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Attempt Column"/>
+        <column xsi:type="varchar" name="content" nullable="false" length="255" comment="Content Column"/>
+        <column xsi:type="varchar" name="message_type" nullable="false" length="255" comment="Message Type Column"/>
+        <column xsi:type="boolean" name="is_warning" nullable="false" comment="Is Warning Column"/>
+        <column xsi:type="boolean" name="is_final" nullable="false" comment="Is Final Column"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="bargain_message_id"/>
+        </constraint>
+        <index referenceId="BARGAIN_MESSAGE_BARGAIN_MESSAGE_ID" indexType="btree">
+            <column name="bargain_message_id"/>
+        </index>
+    </table>
+    <table name="bargain" resource="default" engine="innodb" comment="Bargain">
+        <column xsi:type="int" name="bargain_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Bargain Id Column"/>
+        <column xsi:type="varchar" name="product_id" nullable="false" length="255" comment="Product Sky Column"/>
+        <column xsi:type="varchar" name="product_name" nullable="false" length="255" comment="Product Name Column"/>
+        <column xsi:type="int" name="user_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="User Id Column"/>
+        <column xsi:type="varchar" name="session_id" nullable="false" length="255" comment="Session Id Column"/>
+        <column xsi:type="varchar" name="admin_response" nullable="true" length="255" comment="Message response"/>
+        <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Customer Id Column"/>
+        <column xsi:type="varchar" name="customer_name" nullable="true" length="255" comment="Customer Name Column"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Order Id Column"/>
+        <column xsi:type="decimal" name="current_price" precision="20" scale="2" unsigned="true" nullable="true"
+                comment="Current Price Column"/>
+        <column xsi:type="decimal" name="bargained_price" precision="20" scale="2" unsigned="true" nullable="true"
+                comment="Bargained Price Column"/>
+        <column xsi:type="decimal" name="finalized_price" precision="20" scale="2" unsigned="true" nullable="false"
+                comment="Finalized Price Column"/>
+        <column xsi:type="varchar" name="responded_at" nullable="false" length="255" comment="Responded At Column"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="bargain_id"/>
+        </constraint>
+        <index referenceId="BARGAIN_BARGAIN_ID" indexType="btree">
+            <column name="bargain_id"/>
+        </index>
+    </table>
+</schema>

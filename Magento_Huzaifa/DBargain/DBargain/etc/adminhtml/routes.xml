@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="bargain" frontName="bargain">
+            <module name="DBargain_DBargain" before="Magento_Backend"/>
+        </route>
+        <route id="bargain_message" frontName="bargain_message">
+            <module name="DBargain_DBargain"  before="Magento_Backend"/>
+        </route>
+        <route id="bargain_offer" frontName="bargain_offer">
+            <module name="DBargain_DBargain"  before="Magento_Backend"/>
+        </route>
+        <route id="bargain_report" frontName="bargain_report">
+            <module name="DBargain_DBargain"/>
+        </route>
+    </router>
+</config>

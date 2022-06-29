@@ -1,0 +1,24 @@
+{
+  "name": "d-bargain/module-d-bargain",
+  "version": "1.0.0",
+  "description": "N/A",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*",
+    "magento/module-checkout": "100.4.*",
+    "magento/module-config": "101.2.*",
+    "magento/module-directory": "100.4.*",
+    "magento/module-payment": "100.4.*"
+  },
+  "license": [
+    "Proprietary"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "DBargain\\DBargain\\": ""
+    }
+  }
+}

@@ -1,0 +1,404 @@
+<?php
+
+/** @var DBargain\DBargain\Block\Chat $block */
+$product    = $block->getProduct();
+$threshold = $product->getCustomAttribute('bargain_threshold');
+$timeout    = $block->afterTimeout();
+$afterExit  = $block->afterExit();
+$showButton = $block->chatMode() === 'button';
+$seconds    = $block->timeoutSeconds();
+$startDate  = $product->getCustomAttribute('bargain_start_date') ? $product->getCustomAttribute('bargain_start_date')->getValue() : date('Y-m-d');
+$endDate    = $product->getCustomAttribute('bargain_end_date') ? $product->getCustomAttribute('bargain_end_date')->getValue() : date('Y-m-d');
+$today      = date('Y-m-d');
+
+if ($threshold && strtotime($today) >= strtotime($startDate) && strtotime($today) <= strtotime($endDate)) {
+    $allowed = true;
+} else {
+    $allowed = false;
+}
+
+?>
+<?php if ($allowed) : ?>
+
+    <style>
+        .chatbox-holder {
+            z-index: 1000;
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: flex-end;
+            height: 0;
+        }
+
+        .chatbox {
+            width: 400px;
+            height: 400px;
+            margin: 0 20px 0 0;
+            position: relative;
+            box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+            display: flex;
+            flex-flow: column;
+            border-radius: 10px 10px 0 0;
+            background: white;
+            bottom: 0;
+            transition: .1s ease-out;
+        }
+
+        .chatbox-top {
+            position: relative;
+            display: flex;
+            padding: 10px 0;
+            border-radius: 10px 10px 0 0;
+            background: rgba(0, 0, 0, .05);
+        }
+
+        .chatbox-icons {
+            padding: 0 10px 0 0;
+            display: flex;
+            position: relative;
+        }
+
+        .chatbox-icons .fa {
+            background: rgba(220, 0, 0, .6);
+            padding: 3px 5px;
+            margin: 0 0 0 3px;
+            color: black;
+            border-radius: 0 5px 0 5px;
+            transition: 0.3s;
+        }
+
+        .chatbox-icons .fa:hover {
+            border-radius: 5px 0 5px 0;
+            background: rgba(220, 0, 0, 1);
+        }
+
+        .chatbox-icons a, .chatbox-icons a:link, .chatbox-icons a:visited {
+            color: white;
+        }
+
+        .chat-partner-name, .chat-group-name {
+            flex: 1;
+            padding: 0 0 0 95px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #30649c;
+            text-shadow: 1px 1px 0 white;
+            transition: .1s ease-out;
+        }
+
+        .status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            background: #cacaca;
+            margin: 0 3px 0 0;
+        }
+
+        .online {
+            background: #b7fb00;
+        }
+
+        .chatbox-avatar {
+            width: 80px;
+            height: 80px;
+            overflow: hidden;
+            border-radius: 50%;
+            background: white;
+            padding: 3px;
+            box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+            position: absolute;
+            transition: .1s ease-out;
+            bottom: 0;
+            left: 6px;
+        }
+
+        .chatbox-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .chat-messages {
+            border-top: 1px solid rgba(0, 0, 0, .05);
+            padding: 10px;
+            overflow: auto;
+            display: flex;
+            flex-flow: row wrap;
+            align-content: flex-start;
+            flex: 1;
+        }
+
+        .message-box-holder {
+            width: 100%;
+            margin: 0 0 15px;
+            display: flex;
+            flex-flow: column;
+            align-items: flex-end;
+        }
+
+        .message-sender {
+            font-size: 12px;
+            margin: 0 0 15px;
+            color: #30649c;
+            align-self: flex-start;
+        }
+
+        .message-sender a, .message-sender a:link, .message-sender a:visited, .chat-partner-name a, .chat-partner-name a:link, .chat-partner-name a:visited {
+            color: #30649c;
+            text-decoration: none;
+        }
+
+        .message-box {
+            padding: 6px 10px;
+            border-radius: 6px 0 6px 0;
+            position: relative;
+            background: rgba(100, 170, 0, .1);
+            border: 2px solid rgba(100, 170, 0, .1);
+            color: #6c6c6c;
+            font-size: 14px;
+        }
+
+        .message-box:after {
+            content: "";
+            position: absolute;
+            border: 10px solid transparent;
+            border-top: 10px solid rgba(100, 170, 0, .2);
+            border-right: none;
+            bottom: -22px;
+            right: 10px;
+        }
+
+        .message-partner {
+            background: rgba(0, 114, 135, .1);
+            border: 2px solid rgba(0, 114, 135, .1);
+            align-self: flex-start;
+        }
+
+        .message-partner:after {
+            right: auto;
+            bottom: auto;
+            top: -22px;
+            left: 9px;
+            border: 10px solid transparent;
+            border-bottom: 10px solid rgba(0, 114, 135, .2);
+            border-left: none;
+        }
+
+        .chat-input-holder {
+            display: flex;
+            border-top: 1px solid rgba(0, 0, 0, .1);
+        }
+
+        .chat-input {
+            resize: none;
+            padding: 5px 10px;
+            height: 40px;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            color: #999999;
+            flex: 1;
+            border: none;
+            background: rgba(0, 0, 0, .05);
+            border-bottom: 1px solid rgba(0, 0, 0, .05);
+        }
+
+        .chat-input:focus, .message-send:focus {
+            outline: none;
+        }
+
+        .message-send::-moz-focus-inner {
+            border: 0;
+            padding: 0;
+        }
+
+        .message-send {
+            -webkit-appearance: none;
+            background: #9cc900;
+            color: white;
+            font-size: 12px;
+            padding: 0 15px;
+            border: none;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .chatbox-min {
+            margin-bottom: -362px;
+            /*   height: 46px; */
+        }
+
+        .chatbox-min .chatbox-avatar {
+            width: 60px;
+            height: 60px;
+        }
+
+        .chatbox-min .chat-partner-name, .chatbox-min .chat-group-name {
+            padding: 0 0 0 75px;
+        }
+
+        .hide-chat {
+            visibility: hidden;
+        }
+
+        .dbargain-modal {
+            text-align: center;
+        }
+
+    </style>
+
+    <div id="dbargain-modal">
+        <div class="modal-inner-content">
+            <p>So go on right ahead. Bargain with us. We'll get you a better rate and great price! Happy
+                challenging!</p>
+            <button class="modal-btn" id="bargain-start" type="button">DBargain Now</button>
+        </div>
+    </div>
+
+    <div id="chat-module-interface" class="chatbox-holder hide-chat">
+        <div class="chatbox">
+            <div class="chatbox-top">
+                <div class="chatbox-avatar">
+                    <img alt="chat-user" src="https://i.pravatar.cc/74"/>
+                </div>
+                <div class="chat-partner-name">
+                    <span class="status online"></span>
+                    Chat with the seller
+                </div>
+                <div class="chatbox-icons">
+                    <a href="javascript:void(0);"><i class="fa fa-minus">-</i></a>
+                </div>
+            </div>
+
+            <div id="chat-box" class="chat-messages"></div>
+
+            <div class="chat-input-holder">
+                <input type="number" step="1" class="chat-input"/>
+                <input type="button" value="Send" class="message-send"/>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        require(['jquery', 'Magento_Ui/js/modal/modal'], function ($, modal) {
+            $(document).ready(function () {
+
+                $(document).on('click', "#bargain-start", function () {
+                    $("#dbargain-modal").modal("closeModal");
+                    openChat();
+                });
+
+                function openModal() {
+                    // if chat is not visible and modal is also not showing then show the modal popup
+                    if (!$('.dbargain-modal').hasClass('_show') && $('.chatbox-holder').hasClass('hide-chat')) {
+                        var options = {
+                            type: 'popup',
+                            modalClass: 'dbargain-modal',
+                            responsive: true,
+                            innerScroll: false,
+                            title: 'DBargain Available',
+                            buttons: [{
+                                text: $.mage.__('Close'),
+                                class: 'modal-close',
+                                click: function () {
+                                    this.closeModal();
+                                }
+                            }]
+                        };
+
+                        modal(options, $('#dbargain-modal'));
+                        $("#dbargain-modal").modal("openModal");
+                    }
+                }
+
+                function openChat() {
+                    if ($('.chatbox-holder').hasClass('hide-chat')) {
+
+                        <?php if($showButton) : ?>
+                        $('.chatbox').toggleClass('chatbox-min');
+                        <?php endif; ?>
+
+                        let sku = $('div.product.attribute.sku > div').text();
+                        const url = "<?= $this->getUrl('bargain/index/index') ?>";
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            dataType: 'json',
+                            data: {productId: sku},
+                            showLoader: true,
+                            cache: false,
+                            success: function (response) {
+                                $('.chatbox-holder').removeClass('hide-chat');
+                                $("#chat-box").html(response.output);
+                                if (response.end) {
+                                    $('.chat-input-holder').remove();
+                                }
+                                $(".message-box-holder", '#chat-box').last().scrollTop(function () {
+                                    return this.scrollHeight;
+                                });
+                            }
+                        });
+                    }
+                }
+
+                openModal();
+
+                <?php if($timeout) : ?>
+                setTimeout(() => {
+                    openModal();
+                }, <?= $seconds ?>);
+                <?php endif; ?>
+
+                <?php if($afterExit) : ?>
+                $(document).on('mouseleave', 'body', function () {
+                    openModal();
+                });
+                <?php endif; ?>
+
+                $(document).on('click', '.message-send', function () {
+                    var numberInput = $('.chat-input').val();
+                    let sku = $('div.product.attribute.sku > div').text();
+                    let html = `<div class="message-box-holder">
+                                <div class="message-box">${numberInput}</div>
+                            </div>`;
+                    $('.chat-input').val('');
+                    $("#chat-box").append(html);
+                    var url = "<?= $this->getUrl('bargain/index/index') ?>";
+
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: 'json',
+                        data: {productId: sku, price: parseFloat(numberInput)},
+                        showLoader: true,
+                        cache: false,
+                        success: function (response) {
+                            $("#chat-box").html(response.output);
+                            if (response.end) {
+                                $('.chat-input-holder').remove();
+                            }
+                            $(".message-box-holder", '#chat-box').last().scrollTop(function () {
+                                return this.scrollHeight;
+                            });
+                        }
+                    });
+
+                    return true;
+                });
+
+                $(document).on('click', '.fa-minus', function () {
+                    $(this).closest('.chatbox').toggleClass('chatbox-min');
+                });
+
+                $(document).on('click', '.fa-close', function () {
+                    $(this).closest('.chatbox').hide();
+                });
+            });
+        });
+
+    </script>
+<?php endif; ?>

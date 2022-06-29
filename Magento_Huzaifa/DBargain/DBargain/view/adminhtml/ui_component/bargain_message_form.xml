@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">bargain_message_form.bargain_message_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Bargain Message Form</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <namespace>bargain_message_form</namespace>
+        <dataScope>data.general</dataScope>
+        <deps>
+            <dep>bargain_message_form.bargain_message_form_data_source</dep>
+        </deps>
+        <buttons>
+            <button name="save" class="DBargain\DBargain\Block\Form\BargainMessage\Save"/>
+            <button name="back" class="DBargain\DBargain\Block\Form\BargainMessage\Back"/>
+            <button name="delete" class="DBargain\DBargain\Block\Form\BargainMessage\Delete"/>
+        </buttons>
+    </settings>
+    <dataSource name="bargain_message_form_data_source" component="Magento_Ui/js/form/provider">
+        <settings>
+            <submitUrl path="bargain_message/bargainmessage/save"/>
+        </settings>
+        <dataProvider class="DBargain\DBargain\Ui\DataProvider\BargainMessageDataProvider"
+                      name="bargain_message_form_data_source">
+            <settings>
+                <requestFieldName>bargain_message_id</requestFieldName>
+                <primaryFieldName>bargain_message_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general" sortOrder="10">
+        <settings>
+            <label translate="true">General</label>
+        </settings>
+        <field name="bargain_message_id" sortOrder="0" formElement="hidden">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">bargain_message_id</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Entity ID</label>
+                <dataScope>bargain_message_id</dataScope>
+            </settings>
+        </field>
+        <field name="attempt" sortOrder="00" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">attempt</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>int</dataType>
+                <label translate="true">Attempt</label>
+                <dataScope>attempt</dataScope>
+            </settings>
+        </field>
+        <field name="content" sortOrder="10" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">content</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>string</dataType>
+                <label translate="true">Content</label>
+                <dataScope>content</dataScope>
+            </settings>
+        </field>
+        <field name="message_type" sortOrder="20" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">message_type</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>string</dataType>
+                <label translate="true">Message Type</label>
+                <dataScope>message_type</dataScope>
+            </settings>
+        </field>
+        <field name="is_warning" sortOrder="30" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">is_warning</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>bool</dataType>
+                <label translate="true">Is Warning</label>
+                <dataScope>is_warning</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="is_final" sortOrder="40" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">is_final</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>bool</dataType>
+                <label translate="true">Is Final</label>
+                <dataScope>is_final</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+    </fieldset>
+</form>

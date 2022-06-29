@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="DBargain_DBargain::management" sortOrder="50" title="Bargain" module="DBargain_DBargain"
+             resource="DBargain_DBargain::management" translate="title"/>
+
+        <add id="DBargain_DBargain::list" sortOrder="20" title="Bargain List" module="DBargain_DBargain"
+             parent="DBargain_DBargain::management" resource="DBargain_DBargain::list" translate="title"
+             action="bargain/bargain/index"/>
+
+        <add id="DBargain_DBargain::message" sortOrder="30" title="Bargain Message" module="DBargain_DBargain"
+             parent="DBargain_DBargain::management" resource="DBargain_DBargain::message" translate="title"
+             action="bargain_message/bargainmessage/index"/>
+
+        <add id="DBargain_DBargain::report" sortOrder="100" title="Bargain Report" module="DBargain_DBargain"
+             parent="DBargain_DBargain::management" resource="DBargain_DBargain::management" translate="title"
+             action="bargain_report/bargainreport/index"/>
+    </menu>
+</config>
