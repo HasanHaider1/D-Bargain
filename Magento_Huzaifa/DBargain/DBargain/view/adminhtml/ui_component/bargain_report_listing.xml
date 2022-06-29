@@ -68,10 +68,10 @@
                 <label translate="true">Times Purchased</label>
             </settings>
         </column>
-        <actionsColumn name="actions" class="DBargain\DBargain\Ui\Component\Listing\Column\BargainReportBlockActions">
-            <settings>
-                <indexField>bargain_report_id</indexField>
-            </settings>
-        </actionsColumn>
+<!--        <actionsColumn name="actions" class="DBargain\DBargain\Ui\Component\Listing\Column\BargainReportBlockActions">-->
+<!--            <settings>-->
+<!--                <indexField>bargain_report_id</indexField>-->
+<!--            </settings>-->
+<!--        </actionsColumn>-->
     </columns>
 </listing>

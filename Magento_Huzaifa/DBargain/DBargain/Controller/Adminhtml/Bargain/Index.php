@@ -30,7 +30,7 @@ class Index extends Action implements HttpGetActionInterface
         $resultPage->setActiveMenu('DBargain_DBargain::management');
         $resultPage->addBreadcrumb(__('Bargain'), __('Bargain'));
         $resultPage->addBreadcrumb(__('Manage Bargains'), __('Manage Bargains'));
-        $resultPage->getConfig()->getTitle()->prepend(__('Bargain List'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Bargain Detail'));
 
         return $resultPage;
     }

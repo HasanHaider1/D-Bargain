@@ -27,7 +27,7 @@ class OrderSaveObserver implements ObserverInterface
 
         $sql  = 'SELECT * FROM bargain WHERE order_id = ? AND finalized_price > 0';
         $rows = $this->connection->fetchAll($sql, [$order->getId()]);
-        print_r($rows); exit;
+
         if ($rows) {
             foreach ($rows as $row) {
                 $sql    = 'SELECT * FROM bargain_report WHERE product_id = ?';
@@ -43,8 +43,8 @@ class OrderSaveObserver implements ObserverInterface
                     $sql = 'UPDATE bargain_report SET times_purchased = times_purchased + 1, no_of_buyers = ? + 1 WHERE product_id = ?';
                     $this->connection->query($sql, [$buys['buys'], $row['product_id']]);
                 } else {
-                    $sql = 'INSERT INTO bargain_report (times_purchased, no_of_buyers, product_id ) VALUES(1, 1, ?)';
-                    $this->connection->query($sql, [$row['product_id']]);
+                    $sql = 'INSERT INTO bargain_report (times_purchased, no_of_buyers, product_id, product_name) VALUES(1, 1, ?, ?)';
+                    $this->connection->query($sql, [$row['product_id'], $row['product_name']]);
                 }
             }
         }

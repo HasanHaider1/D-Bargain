@@ -8,7 +8,7 @@
         <observer name="dbargain_customer_login" instance="DBargain\DBargain\Observer\CustomerLoginObserver" />
     </event>
 
-    <event name="sales_order_save_commit_after">
+    <event name="checkout_onepage_controller_success_action">
         <observer name="dbargain_after_order" instance="DBargain\DBargain\Observer\OrderSaveObserver" />
     </event>
 </config>
